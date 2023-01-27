@@ -87,12 +87,5 @@ public class Card {
         this.cardStatus = CardStatus.ACTIVATED;
     }
 
-    public Card(int id, Student student, Date createdOn, Date updatedOn, CardStatus cardStatus, List<Book> books) {
-        this.id = id;
-        this.student = student;
-        this.createdOn = createdOn;
-        this.updatedOn = updatedOn;
-        this.cardStatus = cardStatus;
-        this.books = books;
-    }
+
 }
