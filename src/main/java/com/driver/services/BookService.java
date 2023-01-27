@@ -16,14 +16,15 @@ public class BookService {
 
     @Autowired
     BookRepository bookRepository2;
-
     @Autowired
-    AuthorRepository authorRepository;
+    private AuthorRepository authorRepository;
 
     public void createBook(Book book){
-        try {
-            int id = book.getAuthor().getId();
-            Author author = authorRepository.findById(id).get();
+
+        try
+        {
+            int authorId = book.getAuthor().getId();
+            Author author = authorRepository.findById(authorId).get();
             List<Book> bookList = author.getBooksWritten();
             if(bookList==null) {
                 bookList = new ArrayList<>();
@@ -32,27 +33,24 @@ public class BookService {
             book.setAuthor(author);
             author.setBooksWritten(bookList);
             authorRepository.save(author);
-
         }
-        catch (Exception e) {
-
+        catch(Exception e) {
             bookRepository2.save(book);
         }
     }
-    public List<Book> getBooks(String genre, boolean available, String author) {
-//
-        if (genre != null && author != null) {
-            return bookRepository2.findBooksByGenreAuthor(genre, author, available);
-        } else if (genre != null) {
-            return bookRepository2.findBooksByGenre(genre, available);
-        } else if (author != null) {
-            return bookRepository2.findBooksByAuthor(author, available);
 
-        } else {
-            return bookRepository2.findByAvailability(available);
+    public List<Book> getBooks(String genre, boolean available, String author){
+        List<Book> books;
+
+        if(genre != null && author != null){
+            books = bookRepository2.findBooksByGenreAuthor(genre, author, available);
+        }else if(genre != null){
+            books = bookRepository2.findBooksByGenre(genre, available);
+        }else if(author != null){
+            books = bookRepository2.findBooksByAuthor(author, available);
+        }else{
+            books = bookRepository2.findByAvailability(available);
         }
+        return books;
     }
-
-
-
 }
