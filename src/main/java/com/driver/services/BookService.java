@@ -28,23 +28,20 @@ public class BookService {
         authorRepository.save(author);
     }
 
-    public List<Book> getBooks(String genre, boolean available, String author){
-        List<Book> books = new ArrayList<>();
+    public List<Book> getBooks(String genre, boolean available, String author) {
+//
+        if (genre != null && author != null) {
+            return bookRepository2.findBooksByGenreAuthor(genre, author, available);
+        } else if (genre != null) {
+            return bookRepository2.findBooksByGenre(genre, available);
+        } else if (author != null) {
+            return bookRepository2.findBooksByAuthor(author, available);
 
-        if(genre!=null && available && author == null){
-            books = bookRepository2.findBooksByGenre(genre,available);
+        } else {
+            return bookRepository2.findByAvailability(available);
         }
-        else  if(genre!=null && !available && author != null){
-            books = bookRepository2.findBooksByGenreAuthor(genre,author,available);
-        }
-        else  if(genre==null && available && author != null){
-            books = bookRepository2.findBooksByAuthor(author,available);
-        }
-        else  if(genre==null && available && author == null){
-            books = bookRepository2.findByAvailability(available);
-        }
-        return books;
-
-
     }
+
+
+
 }
