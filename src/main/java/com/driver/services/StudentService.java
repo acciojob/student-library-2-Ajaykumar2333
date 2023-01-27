@@ -31,11 +31,17 @@ public class StudentService {
     }
 
     public void createStudent(Student student){
-
-        Card newCard =  cardService4.createAndReturn(student);
-        student.setCard(newCard);
-        cardRepository.save(newCard);
-
+        if(student != null){
+            Card newCard =  cardService4.createAndReturn(student);
+            if(newCard != null){
+                student.setCard(newCard);
+                cardRepository.save(newCard);
+            }else{
+                // handle the case where newCard is null
+            }
+        }else{
+            // handle the case where student is null
+        }
     }
 
     public void updateStudent(Student student){
@@ -44,9 +50,14 @@ public class StudentService {
     }
 
     public void deleteStudent(int id){
-     Card card = studentRepository4.findById(id).get().getCard();
-     studentRepository4.deleteCustom(id);
-     card.setCardStatus(CardStatus.DEACTIVATED);
-     cardRepository.save(card);
+        Student student = studentRepository4.findById(id).get();
+        if (student!=null) {
+            Card card = student.getCard();
+            studentRepository4.deleteCustom(id);
+            card.setCardStatus(CardStatus.DEACTIVATED);
+            cardRepository.save(card);
+        } else {
+           
+        }
     }
 }
