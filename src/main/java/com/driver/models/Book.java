@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table
 public class Book {
 
     @Id
@@ -36,7 +37,19 @@ public class Book {
     @JsonIgnoreProperties("book")
     private List<Transaction> transactions;
 
-    public Book() {
+    public Book(String name, Genre genre, Author author) {
+        this.name = name;
+        this.genre = genre;
+        this.author = author;
+        this.available = true;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -57,14 +70,6 @@ public class Book {
 
     public Author getAuthor() {
         return author;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setAuthor(Author author) {
@@ -95,10 +100,6 @@ public class Book {
         this.transactions = transactions;
     }
 
-    public Book(String name, Genre genre, Author author) {
-        this.name = name;
-        this.genre = genre;
-        this.author = author;
+    public Book() {
     }
 }
-

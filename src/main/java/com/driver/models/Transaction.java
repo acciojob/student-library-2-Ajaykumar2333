@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
+@Table
 public class Transaction {
 
     @Id
@@ -36,6 +37,9 @@ public class Transaction {
 
     @CreationTimestamp
     private Date transactionDate;
+
+    public Transaction() {
+    }
 
     public int getId() {
         return id;
@@ -100,7 +104,4 @@ public class Transaction {
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
     }
-
-
 }
-
