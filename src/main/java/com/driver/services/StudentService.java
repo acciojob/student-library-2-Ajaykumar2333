@@ -8,6 +8,8 @@ import com.driver.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class StudentService {
 
@@ -31,17 +33,8 @@ public class StudentService {
     }
 
     public void createStudent(Student student){
-        if(student != null){
-            Card newCard =  cardService4.createAndReturn(student);
-            if(newCard != null){
-                student.setCard(newCard);
-                cardRepository.save(newCard);
-            }else{
-                // handle the case where newCard is null
-            }
-        }else{
-            // handle the case where student is null
-        }
+        Card card=cardService4.createAndReturn(student);
+
     }
 
     public void updateStudent(Student student){
@@ -50,14 +43,8 @@ public class StudentService {
     }
 
     public void deleteStudent(int id){
-        Student student = studentRepository4.findById(id).get();
-        if (student!=null) {
-            Card card = student.getCard();
-            studentRepository4.deleteCustom(id);
-            card.setCardStatus(CardStatus.DEACTIVATED);
-            cardRepository.save(card);
-        } else {
-           
-        }
+        cardService4.deactivateCard(id);
+        studentRepository4.deleteCustom(id);
     }
+
 }
