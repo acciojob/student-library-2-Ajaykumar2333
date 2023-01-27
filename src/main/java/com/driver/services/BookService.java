@@ -21,11 +21,17 @@ public class BookService {
     AuthorRepository authorRepository;
 
     public void createBook(Book book){
-        int authorId =book.getAuthor().getId();
-        Author author = authorRepository.findById(authorId).get();
-        author.getBooksWritten().add(book);
-        book.setAuthor(author);
-        authorRepository.save(author);
+       int authorId = book.getAuthor().getId();
+            Author author = authorRepository.findById(authorId).get();
+            List<Book> bookList = author.getBooksWritten();
+            if(bookList==null) {
+                bookList = new ArrayList<>();
+            }
+            bookList.add(book);
+            book.setAuthor(author);
+            author.setBooksWritten(bookList);
+            authorRepository.save(author);
+            bookRepository2.save(book);
     }
 
     public List<Book> getBooks(String genre, boolean available, String author) {
